@@ -59,7 +59,7 @@ BEGIN{ReadNumber}
   WHILE (Digit <> -1)
   DO
     BEGIN
-      IF (MAXINT - N >= 29491)
+      IF (N <= MAXINT DIV 10)
       THEN
         BEGIN
           N := N * 10;
@@ -77,7 +77,7 @@ BEGIN{ReadNumber}
   THEN
     N := -1;
 END;{ReadNumber}
-BEGIN
+BEGIN{GetNumber}
   ReadNumber(INPUT, Num);
   WRITELN(Num)
-END.
+END.{GetNumber}

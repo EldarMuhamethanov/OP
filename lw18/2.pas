@@ -9,8 +9,8 @@ VAR
   Student: 1 .. ClassSize;
   NextScore: Score;
   Ave, TotalScore, ClassTotal: INTEGER;
-  Students: TEXT;
   Ch: CHAR;
+  StudName: TEXT;
 BEGIN {AverageScore}
   ClassTotal := 0;
   WRITELN('Student averages:');
@@ -20,42 +20,43 @@ BEGIN {AverageScore}
     BEGIN
       TotalScore := 0;
       WhichScore := 1;
-      REWRITE(Students);
+      REWRITE(StudName);
+      READ(INPUT, Ch);
       WHILE (Ch <> ' ')
       DO
         BEGIN
-          READ(INPUT, Ch);
-          WRITE(Students, Ch)
+          WRITE(StudName, Ch);
+          READ(INPUT, Ch)          
         END;
-      WRITELN(Students);
+      WRITELN(StudName);
       WHILE WhichScore < NumberOfScores + 1
       DO
         BEGIN
-          READ(NextScore);
+          READ(INPUT, NextScore);
           TotalScore := TotalScore + NextScore;
           WhichScore := WhichScore + 1;
         END;
-      READLN;
+      READLN(INPUT);
       TotalScore := TotalScore * 10;
       Ave := TotalScore DIV NumberOfScores;
-      RESET(Students);
-      WHILE (NOT EOLN(Students))
+      RESET(StudName);
+      WHILE (NOT EOLN(StudName))
       DO
         BEGIN
-          READ(Students, Ch);
+          READ(StudName, Ch);
           WRITE(OUTPUT, Ch)
         END;
-      WRITE('average:');
+      WRITE(OUTPUT, ' average: ');
       IF Ave MOD 10 >= 5
       THEN
-        WRITELN(Ave DIV 10 + 1)
+        WRITELN(OUTPUT, Ave DIV 10 + 1)
       ELSE
-        WRITELN(Ave DIV 10);
+        WRITELN(OUTPUT, Ave DIV 10);
       ClassTotal := ClassTotal + TotalScore;
       Student := Student + 1;
     END;
-  WRITELN;
-  WRITELN ('Class average:');
-  ClassTotal := ClassTotal DIV (ClassSize *NumberOfScores);
-  WRITELN(ClassTotal DIV 10, '.', ClassTotal MOD 10:1)
+  WRITELN(OUTPUT);
+  WRITELN (OUTPUT, 'Class average:');
+  ClassTotal := ClassTotal DIV (ClassSize * NumberOfScores);
+  WRITELN(OUTPUT, ClassTotal DIV 10, '.', ClassTotal MOD 10:1)
 END.  {AverageScore}
