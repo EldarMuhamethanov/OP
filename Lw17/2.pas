@@ -2,7 +2,7 @@ PROGRAM GetNumber(INPUT, OUTPUT);
 VAR 
   Num: INTEGER;
 CONST
-  MAXINT = 32767;
+  MaxInt = 32767;
 PROCEDURE ReadDigit(VAR F: TEXT; VAR D: INTEGER);
 VAR
   Ch: CHAR;
@@ -59,11 +59,11 @@ BEGIN{ReadNumber}
   WHILE (Digit <> -1)
   DO
     BEGIN
-      IF (N <= MAXINT DIV 10)
+      IF (N <= MaxInt DIV 10)
       THEN
         BEGIN
           N := N * 10;
-          IF (MAXINT - N >= Digit)
+          IF (MaxInt - N >= Digit)
           THEN
             N := N + Digit
           ELSE
