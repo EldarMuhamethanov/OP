@@ -1,0 +1,21 @@
+PROGRAM Split(INPUT,OUTPUT);
+VAR 
+  F1: TEXT;
+  Ch: CHAR;
+PROCEDURE CopyOut(VAR F1: TEXT; VAR Ch: CHAR);
+BEGIN{CopyOut}
+  {Копируем F1 в OUTPUT}
+  RESET(F1);
+  WHILE NOT EOLN(F1)
+  DO
+    BEGIN
+      READ(F1, Ch);
+      WRITE(OUTPUT, Ch)
+    END;
+  WRITELN(OUTPUT)
+END;{CopyOut}
+BEGIN{Split}
+  REWRITE(F1);
+  WRITELN(F1, 'ABC');
+  CopyOut(F1, Ch)
+END.{Split}
