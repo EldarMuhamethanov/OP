@@ -33,7 +33,7 @@ BEGIN
   DO
     BEGIN
       Sum := Sum + Digit;
-      ReadDigit(INPUT, Digit);
+      ReadDigit(INPUT, Digit)
     END;
   WRITELN(Sum)
 END.

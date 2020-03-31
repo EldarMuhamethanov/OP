@@ -47,7 +47,7 @@ BEGIN{ReadNumber}
           THEN
             N := N + Digit
           ELSE
-            Owerflow := TRUE;
+            Owerflow := TRUE
         END
       ELSE
         Owerflow := TRUE;
@@ -55,7 +55,7 @@ BEGIN{ReadNumber}
     END;
   IF Owerflow
   THEN
-    N := -1;
+    N := -1
 END;{ReadNumber}
 BEGIN{GetNumber}
   ReadNumber(INPUT, Num);
