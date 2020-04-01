@@ -1,8 +1,6 @@
 PROGRAM GetNumber(INPUT, OUTPUT);
 VAR 
   Num: INTEGER;
-CONST
-  MaxInt = 32767;
 PROCEDURE ReadDigit(VAR F: TEXT; VAR D: INTEGER);
 VAR
   Ch: CHAR;
@@ -35,11 +33,11 @@ BEGIN{ReadNumber}
   WHILE (Digit <> -1) AND NOT(Owerflow)
   DO
     BEGIN
-      IF (N <= MaxInt DIV 10)
+      IF (N <= MAXINT DIV 10)
       THEN
         BEGIN
           N := N * 10;
-          IF (MaxInt - N >= Digit)
+          IF (MAXINT - N >= Digit)
           THEN
             N := N + Digit
           ELSE
