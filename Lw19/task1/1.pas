@@ -1,40 +1,61 @@
-PROGRAM Prime(INPUT, OUTPUT);
+PROGRAM isPrime(INPUT, OUTPUT);
 CONST
   Max = 100;
+  Min = 2;
+TYPE
+  BunchOfNumbers = SET  OF Min..Max;
 VAR
-  I, Prime: INTEGER;
-  First: BOOLEAN;
-  IntSet : SET  OF 0..Max;
-BEGIN {Prime}
-  IntSet := [2..Max];
-  WRITELN('Простые числа в диапазоне от 2 до ', Max, ': ');
-  WHILE (IntSet <> [])
+  IntSet: BunchOfNumbers;
+PROCEDURE WriteBunch(VAR Bunch: BunchOfNumbers; VAR FOut: TEXT);
+{Выводит в файл множество}
+VAR
+  J: INTEGER;
+BEGIN{WriteBunch}
+  J := Min;
+  WRITE(FOut, '{ ');
+  WHILE J <= Max
   DO
     BEGIN
-      I := 2;
-      First := TRUE;
-      WHILE I <= Max
-      DO
-        BEGIN
-          IF I IN IntSet
-          THEN
+      IF J IN Bunch
+      THEN
+         WRITE(FOut, J, ' ');
+      J := J + 1
+    END;
+  WRITELN(FOut, '}')
+END;{WriteBunch}
+PROCEDURE GetPrimeNumber(VAR Bunch: BunchOfNumbers; VAR FOut: TEXT);
+{Алгоритм поиска }
+VAR
+  I, J, Prime: INTEGER;  
+BEGIN{GetPrimeNumber}
+  I := 2;
+  WHILE I * I <= Max
+  DO
+    BEGIN
+      J := I;
+      IF J IN IntSet
+      THEN
+        BEGIN 
+          Prime := J;
+          WHILE J <= Max
+          DO
             BEGIN
-              IF First
+              IF J IN IntSet
               THEN
                 BEGIN
-                  WRITE(I, ', ');
-                  Prime := I;
-                  IntSet := IntSet - [I];
-                  First := FALSE
-                END
-              ELSE
-                BEGIN
-                  IF (I MOD Prime = 0)
+                  IF (J MOD Prime = 0)
                   THEN
-                    IntSet := IntSet - [I]
-                END   
+                    IntSet := IntSet - [J]  
+                END;
+              J := J + 1
             END;
-          I := I + 1
-        END
-    END
-END. {Prime}
+          WRITELN(FOut, 'НА ДАННОМ ЭТАПЕ: ');
+          WriteBunch(IntSet, FOut);
+        END; 
+      I := I + 1; 
+    END;
+END;{GetPrimeNumber}
+BEGIN {isPrime}
+  IntSet := [Min..Max];
+  GetPrimeNumber(IntSet, OUTPUT)
+END. {isPrime}
