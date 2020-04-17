@@ -21,7 +21,7 @@ BEGIN{--------------------------SortDate-----------------------------------}
     {ѕоместить новую дату в DateFile в соответствующее место}
     BEGIN
       RESET(DateFile);
-      ReadDate(FInput,D);
+      ReadDate(FInput, D);
       READLN(FInput);
       IF (D.Mo <> NoMonth)
       THEN
