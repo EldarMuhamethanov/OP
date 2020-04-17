@@ -40,13 +40,9 @@ BEGIN{GetPrimeNumber}
           WHILE J <= Max
           DO
             BEGIN
-              IF J IN IntSet
+              IF (J MOD Prime = 0)
               THEN
-                BEGIN
-                  IF (J MOD Prime = 0)
-                  THEN
-                    IntSet := IntSet - [J]  
-                END;
+                IntSet := IntSet - [J];  
               J := J + 1
             END;
           WRITELN(FOut, 'ÍÀ ÄÀÍÍÎÌ ÝÒÀÏÅ: ');
