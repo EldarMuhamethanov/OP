@@ -23,35 +23,34 @@ BEGIN{WriteBunch}
     END;
   WRITELN(FOut, '}')
 END;{WriteBunch}
-PROCEDURE GetPrimeNumber(VAR Bunch: BunchOfNumbers; VAR FOut: TEXT);
+PROCEDURE GetPrimeBunch(VAR Bunch: BunchOfNumbers; VAR FOut: TEXT);
 {Алгоритм поиска }
 VAR
   I, J, Prime: INTEGER;  
 BEGIN{GetPrimeNumber}
-  I := 2;
+  I := Min;
   WHILE I * I <= Max
   DO
     BEGIN
       J := I;
-      IF J IN IntSet
+      IF J IN Bunch
       THEN
         BEGIN 
           Prime := J;
+          J := J + Prime;
           WHILE J <= Max
           DO
             BEGIN
-              IF (J MOD Prime = 0)
-              THEN
-                IntSet := IntSet - [J];  
-              J := J + 1
+              Bunch := Bunch - [J];  
+              J := J + Prime;
             END;
           WRITELN(FOut, 'НА ДАННОМ ЭТАПЕ: ');
-          WriteBunch(IntSet, FOut);
+          WriteBunch(Bunch, FOut);
         END; 
       I := I + 1; 
     END;
 END;{GetPrimeNumber}
 BEGIN {isPrime}
   IntSet := [Min..Max];
-  GetPrimeNumber(IntSet, OUTPUT)
+  GetPrimeBunch(IntSet, OUTPUT)
 END. {isPrime}
