@@ -12,7 +12,7 @@ VAR
   NextScore: Score;
   Ave, TotalScore, ClassTotal: INTEGER;
   Error, Overflow: BOOLEAN;
-PROCEDURE ReadName(VAR FIn, Fout: TEXT); {CopyWord}
+PROCEDURE ReadName(VAR FIn, Fout: TEXT); {ReadName}
 VAR
   Ch: CHAR;
 BEGIN
@@ -22,7 +22,7 @@ BEGIN
       READ(FIn, Ch);
       WRITE(Fout, Ch)
     END
-END; {CopyWord}
+END; {ReadName}
 BEGIN {AverageScore}
   Overflow := FALSE;
   Error := FALSE;
