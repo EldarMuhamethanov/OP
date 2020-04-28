@@ -1,96 +1,94 @@
-PROGRAM GetNumber(INPUT, OUTPUT);
-VAR 
-  Num, Min, Max: INTEGER;
-CONST
-  MAXINT = 32767;
-PROCEDURE ReadDigit(VAR F: TEXT; VAR D: INTEGER);
+Program Start(INPUT, OUTPUT);
 VAR
-  Ch: CHAR;
+  Min, Max, EnterCount, Sum, Number: INTEGER;  
+  Overflow: BOOLEAN;
+PROCEDURE ReadDigit(VAR F: TEXT; VAR D: INTEGER);{ReadDigit}
+VAR
+   Ch: CHAR;
 BEGIN{ReadDigit}
-  D := -1;
-  IF NOT EOLN(F)
+  D := -1; 
+  IF NOT(EOLN)
   THEN
     BEGIN
-      READ(F, Ch); 
-      IF (Ch >= '0') AND (Ch <= '9')
-      THEN
-        BEGIN
-          IF (Ch = '0')
-          THEN
-            D := 0;
-          IF (Ch = '1')
-          THEN
-            D := 1; 
-          IF (Ch = '2')
-          THEN
-            D := 2;
-          IF (Ch = '3')
-          THEN
-            D := 3;
-          IF (Ch = '4')
-          THEN
-            D := 4;
-          IF (Ch = '5')
-          THEN
-            D := 5;
-          IF (Ch = '6')
-          THEN
-            D := 6;
-          IF (Ch = '7')
-          THEN
-            D := 7;
-          IF (Ch = '8')
-          THEN
-            D := 8;
-          IF (Ch = '9')
-          THEN
-            D := 9              
-        END
-    END
-END;{ReadDigit}
-PROCEDURE ReadNumber(VAR F: TEXT; VAR N: INTEGER);
+      READ(F, Ch);  
+      IF Ch = '1' THEN D := 1 ELSE
+      IF Ch = '2' THEN D := 2 ELSE
+      IF Ch = '3' THEN D := 3 ELSE
+      IF Ch = '4' THEN D := 4 ELSE
+      IF Ch = '5' THEN D := 5 ELSE
+      IF Ch = '6' THEN D := 6 ELSE
+      IF Ch = '7' THEN D := 7 ELSE
+      IF Ch = '8' THEN D := 8 ELSE
+      IF Ch = '9' THEN D := 9 ELSE
+      IF Ch = '0' THEN D := 0
+    END   
+END;{ReadDigit}  
+PROCEDURE ReadNumber(VAR F: TEXT; VAR N: INTEGER);{ReadNumber}
 VAR 
-  Digit: INTEGER;
-  Owerflow: BOOLEAN;
+ I: INTEGER;
 BEGIN{ReadNumber}
-  Owerflow := FALSE;
   N := 0;
-  ReadDigit(F, Digit);
-  WHILE (Digit <> -1)
+  I := 0;
+  WHILE (NOT(EOLN(F)) AND (N >= 0) AND (I <> -1))
   DO
+    BEGIN        
+      ReadDigit(F, I);
+      IF (I <> -1)
+      THEN
+        BEGIN     
+          IF (N <= MAXINT DIV 10) 
+          THEN    
+            BEGIN     
+              N := N * 10;
+              IF(MAXINT - N >= I)
+              THEN
+                N := N + I
+              ELSE
+                N := -1
+            END                                            
+          ELSE
+            N := -1            
+        END    
+    END;    
+END;{ReadNumber} 
+BEGIN
+  Max := 0;
+  Min := MAXINT;
+  Sum := 0;
+  Number := 0;
+  EnterCount := 0;
+  Overflow := FALSE;
+  WHILE (NOT EOLN(INPUT)) AND (NOT Overflow)
+  DO
+    BEGIN   
+      ReadNumber(INPUT, Number);
+      Overflow := (Number = -1) OR (Sum > (MAXINT - Number)) OR (EnterCount >= MAXINT - 1);
+      IF (Overflow)
+      THEN
+        WRITELN('Incorrect value entered, or overflow')   
+      ELSE
+        BEGIN
+          EnterCount := EnterCount + 1;
+          Sum := Sum + Number; 
+          IF (Min > Number)
+          THEN
+            Min := Number;
+          IF (Max < Number)
+          THEN
+            Max := Number;                                 
+        END            
+    END;   
+  IF (NOT Overflow)
+  THEN
     BEGIN
-      IF (MAXINT - N >= 29491)
+      IF (EnterCount > 0)
       THEN
         BEGIN
-          N := N * 10;
-          IF (MAXINT - N >= Digit)
-          THEN
-            N := N + Digit
-          ELSE
-            Owerflow := TRUE;
+          WRITELN('Min: ', Min);
+          WRITELN('Max: ', Max);
+          WRITELN('Average: ', Sum DIV EnterCount, '.', Sum MOD EnterCount * 100 DIV EnterCount);
         END
       ELSE
-        Owerflow := TRUE;
-      ReadDigit(F, Digit)
-    END;
-  IF Owerflow
-  THEN
-    N := -1;
-END;{ReadNumber}
-BEGIN
-  Min := MAXINT;
-  Max := 0;
-  WHILE NOT EOLN(INPUT)
-  DO
-    BEGIN              
-      ReadNumber(INPUT, Num);
-      IF (Num <= Min)
-      THEN
-        Min := Num;
-      IF (Num >= Max)
-      THEN
-        Max := Num;
-    END;
-  WRITELN('Max: ', Max);
-  WRITELN('Min: ', Min);
-END.
+        WRITELN('nothing entered')
+    END    
+END.  
