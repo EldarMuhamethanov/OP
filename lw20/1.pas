@@ -3,7 +3,7 @@ TYPE
   BunchOfNumbers = SET  OF 1..25;
 VAR 
   Ch: CHAR;
-PROCEDURE SetBunch(VAR Bunch: BunchOfNumbers; VAR Ch: CHAR);
+PROCEDURE SetBunch(VAR Bunch: BunchOfNumbers; VAR Ch: CHAR; VAR isSymbol: BOOLEAN);
 BEGIN{SetBunch}
   CASE Ch OF
     'A': Bunch := [1, 6, 7, 11, 13, 16, 17, 18, 19, 21, 25];
@@ -31,30 +31,42 @@ BEGIN{SetBunch}
     'W': Bunch := [1, 5, 6, 10, 11, 13, 15, 16, 18, 20, 22, 24];
     'X': Bunch := [1, 5, 7, 9, 13, 17, 19, 21, 25];
     'Y': Bunch := [1, 5, 7, 9, 13, 18, 23];
-    'Z': Bunch := [1, 2, 3, 4, 5, 9, 13, 17, 21, 22, 23, 24, 25];
-    ELSE WRITELN('ERROR')
+    'Z': Bunch := [1, 2, 3, 4, 5, 9, 13, 17, 21, 22, 23, 24, 25]
+    ELSE isSymbol := FALSE
   END;
 END;{SetBunch}
 PROCEDURE GraphPrint(VAR Ch: CHAR; VAR FOut: TEXT);
 VAR
   LetterBunch: BunchOfNumbers;
   I: INTEGER;
+  isSymbol: BOOLEAN;
 BEGIN{GraphPrint}
-  SetBunch(LetterBunch, Ch);
+  isSymbol := TRUE;
+  SetBunch(LetterBunch, Ch, isSymbol);
   WRITELN(FOut);
-  FOR I := 1 TO 25 DO
+  IF (isSymbol)
+  THEN
     BEGIN
-      IF (I IN LetterBunch)
-      THEN
-        WRITE(FOut, 'X')
-      ELSE
-        WRITE(FOut, ' ');
-      IF (I MOD 5 = 0)
-      THEN
-        WRITELN(FOut)
-    END;    
+      FOR I := 1 TO 25 DO
+        BEGIN
+          IF (I IN LetterBunch)
+          THEN
+            WRITE(FOut, 'X')
+          ELSE
+            WRITE(FOut, ' ');
+          IF (I MOD 5 = 0)
+          THEN
+            WRITELN(FOut)
+        END
+    END
+  ELSE
+    WRITELN(FOut, 'INCORRECT SYMBOL')      
 END;{GraphPrint}
 BEGIN{XPrint}
-  READ(Ch);
-  GraphPrint(Ch, OUTPUT)
+  IF NOT EOLN
+  THEN
+    BEGIN
+      READ(Ch);
+      GraphPrint(Ch, OUTPUT)
+    END
 END.{XPrint}
