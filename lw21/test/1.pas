@@ -54,26 +54,26 @@ BEGIN {Encode}
       THEN
         WRITE(Code[Msg[I]])
       ELSE
-        WRITE(Msg[I]);
+        WRITE(Msg[I])
     END;
   WRITELN
 END; {Encode}
 
 BEGIN  {Encryption} 
- Initialize(Code);
- WHILE NOT EOF
- DO
-   BEGIN
-     I := 1;
-     WHILE NOT EOLN AND (I < Len)
-     DO
+  Initialize(Code);
+  WHILE NOT EOF
+  DO
+    BEGIN
+      I := 1;
+      WHILE NOT EOLN AND (I < Len)
+      DO
        BEGIN    
          READ(Msg[I]);          
          WRITE(Msg[I]);
          I := I + 1
        END;
-     READLN;
-     WRITELN;  
-     Encode(Msg, Code, I) 
-   END 
+      READLN;
+      WRITELN;  
+      Encode(Msg, Code, I) 
+    END 
 END.  {Encryption}

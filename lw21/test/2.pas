@@ -72,29 +72,29 @@ BEGIN  {Encryption}
     BEGIN
       WHILE NOT EOF
       DO
-       BEGIN
-         I := 1;
-         Overflow := FALSE;
-         WHILE NOT EOLN AND (I <= Len)
-         DO
-           BEGIN   
-             READ(Msg[I]);
-             WRITE(Msg[I]);
-             I := I + 1
-           END;
-         IF (NOT EOLN) AND (I > Len)
-         THEN
-           BEGIN 
-             WRITELN;
-             WRITE('long str');
-             Overflow := TRUE
-           END;
-         READLN;
-         WRITELN;  
-         IF NOT Overflow
-         THEN
-           Encode(Msg, Code, I, CodeBunch) 
-       END 
+        BEGIN
+          I := 1;
+          Overflow := FALSE;
+          WHILE NOT EOLN AND (I <= Len)
+          DO
+            BEGIN   
+              READ(Msg[I]);
+              WRITE(Msg[I]);
+              I := I + 1
+            END;
+          IF (NOT EOLN) AND (I > Len)
+          THEN
+            BEGIN 
+              WRITELN;
+              WRITE('long str');
+              Overflow := TRUE
+            END;
+          READLN;
+          WRITELN;  
+          IF NOT Overflow
+          THEN
+            Encode(Msg, Code, I, CodeBunch) 
+        END 
     END
   ELSE
     WRITELN(OUTPUT, 'Incorrect file data(Format error OR non-array character)')

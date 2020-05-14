@@ -1,4 +1,4 @@
-PROGRAM Encryption(INPUT, OUTPUT);
+PROGRAM Decription(INPUT, OUTPUT);
 CONST
   Len = 20;
 TYPE
@@ -35,8 +35,8 @@ BEGIN  {Initialize}
       THEN
         BEGIN
           READ(ChiperFile, SymbolChiper);
-          Code[SymbolCode] := SymbolChiper;
-          CodeBunch := CodeBunch + [SymbolCode]
+          Code[SymbolChiper] := SymbolCode;
+          CodeBunch := CodeBunch + [SymbolChiper]
         END
       ELSE
         Error := TRUE;
@@ -54,13 +54,13 @@ BEGIN {Encode}
   FOR I := 1 TO MsgLength - 1
   DO
     BEGIN
-      IF (Msg[I] IN ['A' .. 'Z'] + [' ']) AND (Msg[I] IN CodeBunch)
+      IF (Msg[I] IN CodeBunch)
       THEN
         WRITE(Code[Msg[I]])
       ELSE
         WRITE(Msg[I])
     END; 
-  WRITELN
+  WRITELN(OUTPUT)
 END; {Encode}
 
 BEGIN  {Encryption}
@@ -72,29 +72,29 @@ BEGIN  {Encryption}
     BEGIN
       WHILE NOT EOF
       DO
-        BEGIN
-          I := 1;
-          Overflow := FALSE;
-          WHILE NOT EOLN AND (I <= Len)
-          DO
-            BEGIN   
-              READ(Msg[I]);
-              WRITE(Msg[I]);
-              I := I + 1
-            END;
-          IF (NOT EOLN) AND (I > Len)
-          THEN
-            BEGIN 
-              WRITELN;
-              WRITE('long str');
-              Overflow := TRUE
-            END;
-          READLN;
-          WRITELN;  
-          IF NOT Overflow
-          THEN
-            Encode(Msg, Code, I, CodeBunch) 
-        END 
+       BEGIN
+         I := 1;
+         Overflow := FALSE;
+         WHILE NOT EOLN AND (I <= Len)
+         DO
+           BEGIN   
+             READ(Msg[I]);
+             WRITE(Msg[I]);
+             I := I + 1 
+           END;
+         IF (NOT EOLN) AND (I > Len)
+         THEN
+           BEGIN 
+             WRITELN;
+             WRITE('long str');
+             Overflow := TRUE
+           END;
+         READLN;
+         WRITELN;  
+         IF NOT Overflow
+         THEN
+           Encode(Msg, Code, I, CodeBunch) 
+       END 
     END
   ELSE
     WRITELN(OUTPUT, 'Incorrect file data(Format error OR non-array character)')
