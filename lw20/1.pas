@@ -1,6 +1,6 @@
 PROGRAM XPrint(INPUT, OUTPUT);
 TYPE
-  BunchOfNumbers = SET  OF 1..25;
+  BunchOfNumbers = SET  OF 1 .. 25;
 VAR 
   Ch: CHAR;
 PROCEDURE SetBunch(VAR Bunch: BunchOfNumbers; VAR Ch: CHAR; VAR isSymbol: BOOLEAN);
@@ -47,7 +47,8 @@ BEGIN{GraphPrint}
   IF (isSymbol)
   THEN
     BEGIN
-      FOR I := 1 TO 25 DO
+      FOR I := 1 TO 25
+      DO
         BEGIN
           IF (I IN LetterBunch)
           THEN

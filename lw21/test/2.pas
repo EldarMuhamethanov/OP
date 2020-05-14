@@ -9,11 +9,11 @@ TYPE
 VAR
   Msg: Str;
   Code: Chiper;
-  ChiperBunch, CodeBunch: CharBunch;
+  CodeBunch: CharBunch;
   I: LengthStr;
   ChiperFile: TEXT;
-  FormatError, IsExist, Overflow: BOOLEAN;
-PROCEDURE Initialize(VAR ChiperFile: TEXT; VAR Code: Chiper; VAR CodeBunch, ChiperBunch: CharBunch; VAR Error: BOOLEAN);
+  FormatError, Overflow: BOOLEAN;
+PROCEDURE Initialize(VAR ChiperFile: TEXT; VAR Code: Chiper; VAR CodeBunch: CharBunch; VAR Error: BOOLEAN);
 VAR
   SymbolCode, SymbolChiper, SymbolSeparator: CHAR;
 BEGIN  {Initialize}
@@ -26,27 +26,27 @@ BEGIN  {Initialize}
         READ(ChiperFile, SymbolCode)
       ELSE
         Error := TRUE;
-      IF NOT EOLN(ChiperFile) AND (SymbolCode IN ChiperBunch)
+      IF NOT EOLN(ChiperFile) AND (SymbolCode IN (['A' .. 'Z'] + [' ']))
       THEN
         READ(ChiperFile, SymbolSeparator)
       ELSE
         Error := TRUE;  
-      IF NOT EOLN(ChiperFile) AND (SymbolSeparator = '-')
+      IF NOT EOLN(ChiperFile) AND (SymbolSeparator = '-') AND NOT Error
       THEN
         BEGIN
           READ(ChiperFile, SymbolChiper);
           Code[SymbolCode] := SymbolChiper;
-          CodeBunch := CodeBunch + [SymbolCode];
+          CodeBunch := CodeBunch + [SymbolCode]
         END
       ELSE
         Error := TRUE;
-      IF NOT(ERROR)
+      IF NOT(Error)
       THEN            
-        READLN(ChiperFile);
+        READLN(ChiperFile)
     END
 END;  {Initialize}
  
-PROCEDURE Encode(VAR Msg: Str; VAR Code: Chiper; VAR MsgLength: LengthStr);
+PROCEDURE Encode(VAR Msg: Str; VAR Code: Chiper; VAR MsgLength: LengthStr; VAR CodeBunch: CharBunch);
 VAR
   I: LengthStr;
   Symbol: CHAR;
@@ -54,17 +54,19 @@ BEGIN {Encode}
   FOR I := 1 TO MsgLength - 1
   DO
     BEGIN
-      Symbol := Msg[I];
-      WRITE(OUTPUT, Code[Symbol])
+      IF (Msg[I] IN ['A' .. 'Z'] + [' ']) AND (Msg[I] IN CodeBunch)
+      THEN
+        WRITE(Code[Msg[I]])
+      ELSE
+        WRITE(Msg[I])
     END; 
-  WRITELN(OUTPUT);
+  WRITELN
 END; {Encode}
 
 BEGIN  {Encryption}
   ASSIGN(ChiperFile, 'code.txt');
-  CodeBunch := []; //Все символы которые будут считаны из файла
-  ChiperBunch := ['A' .. 'Z'] + [' ']; //Все символы которые можно кодировать
-  Initialize(ChiperFile, Code, CodeBunch, ChiperBunch, FormatError); 
+  CodeBunch := []; //Все символы которые будут считаны из файла И закодированы
+  Initialize(ChiperFile, Code, CodeBunch, FormatError); 
   IF NOT(FormatError)
   THEN
     BEGIN
@@ -72,35 +74,26 @@ BEGIN  {Encryption}
       DO
        BEGIN
          I := 1;
-         IsExist := FALSE;
          Overflow := FALSE;
-         WHILE NOT EOLN AND (I <= Len) AND NOT IsExist
+         WHILE NOT EOLN AND (I <= Len)
          DO
            BEGIN   
              READ(Msg[I]);
-             IF (Msg[I] IN ChiperBunch) AND (Msg[I] IN CodeBunch)
-             THEN
-               WRITE(Msg[I])
-             ELSE
-               BEGIN
-                 WRITELN;
-                 WRITE('Symbol ', Msg[I], ' is UNDEFINED');
-                 IsExist := TRUE
-               END;
-             I := I + 1;  
+             WRITE(Msg[I]);
+             I := I + 1
            END;
          IF (NOT EOLN) AND (I > Len)
          THEN
            BEGIN 
              WRITELN;
-             WRITE('Too long str');
-             Overflow := TRUE;
+             WRITE('long str');
+             Overflow := TRUE
            END;
          READLN;
          WRITELN;  
-         IF NOT IsExist AND NOT Overflow
+         IF NOT Overflow
          THEN
-           Encode(Msg, Code, I) 
+           Encode(Msg, Code, I, CodeBunch) 
        END 
     END
   ELSE
