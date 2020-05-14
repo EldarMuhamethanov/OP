@@ -32,7 +32,8 @@ BEGIN{SetBunch}
     'X': Bunch := [1, 5, 7, 9, 13, 17, 19, 21, 25];
     'Y': Bunch := [1, 5, 7, 9, 13, 18, 23];
     'Z': Bunch := [1, 2, 3, 4, 5, 9, 13, 17, 21, 22, 23, 24, 25]
-    ELSE isSymbol := FALSE
+  ELSE 
+    isSymbol := FALSE
   END;
 END;{SetBunch}
 PROCEDURE GraphPrint(VAR Ch: CHAR; VAR FOut: TEXT);
