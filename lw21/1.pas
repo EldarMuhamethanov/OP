@@ -50,7 +50,7 @@ BEGIN {Encode}
   FOR I := 1 TO MsgLength - 1 
   DO
     BEGIN
-      IF (Msg[I] IN ['A' .. 'Z'] + [' ']) AND (Code[Msg[I]] IN [' ' .. 'z'])
+      IF (Msg[I] IN ['A' .. 'Z'] + [' ']) AND (Code[Msg[I]] IN [' ' .. '~'])
       THEN
         WRITE(Code[Msg[I]])
       ELSE
