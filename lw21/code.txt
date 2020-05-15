@@ -9,8 +9,6 @@ G-*
 H-X
 I-^
 K-A
-L-B
-M-C
 N-D
 O-R
 P-8

@@ -1,6 +1,7 @@
 PROGRAM Encryption(INPUT, OUTPUT);
 CONST
   Len = 20;
+  CodeAlphabet = ['A' .. 'Z', ' '];
 TYPE
   LengthStr = 1 .. Len;
   Str = ARRAY [1 .. Len] OF ' ' .. 'Z';
@@ -26,7 +27,7 @@ BEGIN  {Initialize}
         READ(ChiperFile, SymbolCode)
       ELSE
         Error := TRUE;
-      IF NOT EOLN(ChiperFile) AND (SymbolCode IN (['A' .. 'Z'] + [' ']))
+      IF NOT EOLN(ChiperFile) AND (SymbolCode IN CodeAlphabet)
       THEN
         READ(ChiperFile, SymbolSeparator)
       ELSE
@@ -54,7 +55,7 @@ BEGIN {Encode}
   FOR I := 1 TO MsgLength - 1
   DO
     BEGIN
-      IF (Msg[I] IN ['A' .. 'Z'] + [' ']) AND (Msg[I] IN CodeBunch)
+      IF (Msg[I] IN CodeAlphabet) AND (Msg[I] IN CodeBunch)
       THEN
         WRITE(Code[Msg[I]])
       ELSE

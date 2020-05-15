@@ -1,6 +1,7 @@
 PROGRAM Encryption(INPUT, OUTPUT);
 CONST
   Len = 20;
+  CodeAlphabet = ['A' .. 'Z', ' '];
 TYPE
   LengthStr = 1 .. Len;
   Str = ARRAY [1 .. Len] OF ' ' .. 'Z';
@@ -23,7 +24,6 @@ BEGIN  {Initialize}
   Code['H'] := '"';
   Code['I'] := 'I';
   Code['J'] := 'Q';
-  Code['K'] := 'P';
   Code['M'] := ':';
   Code['N'] := 'M';
   Code['O'] := '2';
@@ -50,7 +50,7 @@ BEGIN {Encode}
   FOR I := 1 TO MsgLength - 1 
   DO
     BEGIN
-      IF (Msg[I] IN ['A' .. 'Z'] + [' ']) AND (Code[Msg[I]] IN [' ' .. '~'])
+      IF (Msg[I] IN CodeAlphabet) AND (Code[Msg[I]] IN [' ' .. '~'])
       THEN
         WRITE(Code[Msg[I]])
       ELSE
