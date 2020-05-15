@@ -4,7 +4,7 @@ VAR
   Overflow: BOOLEAN;
 PROCEDURE ReadDigit(VAR F: TEXT; VAR D: INTEGER);{ReadDigit}
 VAR
-   Ch: CHAR;
+  Ch: CHAR;
 BEGIN{ReadDigit}
   D := -1; 
   IF NOT(EOLN)
@@ -25,7 +25,7 @@ BEGIN{ReadDigit}
 END;{ReadDigit}  
 PROCEDURE ReadNumber(VAR F: TEXT; VAR N: INTEGER);{ReadNumber}
 VAR 
- I: INTEGER;
+  I: INTEGER;
 BEGIN{ReadNumber}
   N := 0;
   I := 0;
