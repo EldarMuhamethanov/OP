@@ -1,62 +1,65 @@
 PROGRAM XPrint(INPUT, OUTPUT);
+CONST
+  Min = 1;
+  Max = 25;
+  Row = 5;
+  LetterAlphabet = ['A' .. 'Z'];
+  EmptyCell = ' ';
+  FilledCell = 'X';
 TYPE
-  BunchOfNumbers = SET  OF 1 .. 25;
+  BunchOfNumbers = SET  OF Min .. Max;
 VAR 
   Ch: CHAR;
-PROCEDURE SetBunch(VAR Bunch: BunchOfNumbers; VAR Ch: CHAR; VAR isSymbol: BOOLEAN);
+FUNCTION SetBunch(VAR Ch: CHAR): BunchOfNumbers;
 BEGIN{SetBunch}
   CASE Ch OF
-    'A': Bunch := [1, 6, 7, 11, 13, 16, 17, 18, 19, 21, 25];
-    'B': Bunch := [1, 2, 3, 4, 6, 10, 11, 12, 13, 14, 16, 20, 21, 22, 23, 24];
-    'C': Bunch := [2, 3, 4, 5, 6, 11, 16, 22, 23, 24, 25];
-    'D': Bunch := [1, 2, 3, 4, 6, 10, 11, 15, 16, 20, 21, 22, 23, 24];
-    'E': Bunch := [1, 2, 3, 4, 5, 6, 11, 12, 13, 14, 15, 16, 21, 22, 23, 24, 25];
-    'F': Bunch := [1, 2, 3, 4, 5, 6, 11, 12, 13, 16, 21];
-    'G': Bunch := [2, 3, 4, 6, 11, 13, 14, 15, 16, 20, 22, 23, 24];
-    'H': Bunch := [1, 5, 6, 10, 11, 12, 13, 14, 15, 16, 20, 21, 25];
-    'I': Bunch := [2, 3, 4, 8, 13, 18, 22, 23, 24];
-    'J': Bunch := [1, 2, 3, 4, 5, 8, 13, 16, 18, 22];
-    'K': Bunch := [1, 4, 6, 8, 11, 12, 16, 18, 21, 24];
-    'L': Bunch := [1, 6, 11, 16, 21, 22, 23, 24, 25];
-    'M': Bunch := [1, 5, 6, 7, 9, 10, 11, 13, 15, 16, 20, 21, 25];
-    'N': Bunch := [1, 5, 6, 7, 10, 11, 13, 15, 16, 19, 20, 21, 25];
-    'O': Bunch := [2, 3, 4, 6, 10, 11, 15, 16, 20, 22, 23, 24];
-    'P': Bunch := [1, 2, 3, 6, 9, 11, 12, 13, 16, 21];
-    'Q': Bunch := [2, 3, 4, 6, 10, 11, 15, 16, 19, 22, 23, 25];
-    'R': Bunch := [1, 2, 3, 4, 6, 9, 11, 12, 13, 14, 16, 18, 21, 24];
-    'S': Bunch := [2, 3, 4, 5, 6, 12, 13, 14, 20, 21, 22, 23, 24];
-    'T': Bunch := [1, 2, 3, 4, 5, 8, 13, 18, 23];
-    'U': Bunch := [1, 5, 6, 10, 11, 15, 16, 20, 22, 23, 24];
-    'V': Bunch := [1, 5, 7, 9, 12, 14, 18];
-    'W': Bunch := [1, 5, 6, 10, 11, 13, 15, 16, 18, 20, 22, 24];
-    'X': Bunch := [1, 5, 7, 9, 13, 17, 19, 21, 25];
-    'Y': Bunch := [1, 5, 7, 9, 13, 18, 23];
-    'Z': Bunch := [1, 2, 3, 4, 5, 9, 13, 17, 21, 22, 23, 24, 25]
-  ELSE 
-    isSymbol := FALSE
+    'A': SetBunch := [1, 6, 7, 11, 13, 16, 17, 18, 19, 21, 25];
+    'B': SetBunch := [1, 2, 3, 4, 6, 10, 11, 12, 13, 14, 16, 20, 21, 22, 23, 24];
+    'C': SetBunch := [2, 3, 4, 5, 6, 11, 16, 22, 23, 24, 25];
+    'D': SetBunch := [1, 2, 3, 4, 6, 10, 11, 15, 16, 20, 21, 22, 23, 24];
+    'E': SetBunch := [1, 2, 3, 4, 5, 6, 11, 12, 13, 14, 15, 16, 21, 22, 23, 24, 25];
+    'F': SetBunch := [1, 2, 3, 4, 5, 6, 11, 12, 13, 16, 21];
+    'G': SetBunch := [2, 3, 4, 6, 11, 13, 14, 15, 16, 20, 22, 23, 24];
+    'H': SetBunch := [1, 5, 6, 10, 11, 12, 13, 14, 15, 16, 20, 21, 25];
+    'I': SetBunch := [2, 3, 4, 8, 13, 18, 22, 23, 24];
+    'J': SetBunch := [1, 2, 3, 4, 5, 8, 13, 16, 18, 22];
+    'K': SetBunch := [1, 4, 6, 8, 11, 12, 16, 18, 21, 24];
+    'L': SetBunch := [1, 6, 11, 16, 21, 22, 23, 24, 25];
+    'M': SetBunch := [1, 5, 6, 7, 9, 10, 11, 13, 15, 16, 20, 21, 25];
+    'N': SetBunch := [1, 5, 6, 7, 10, 11, 13, 15, 16, 19, 20, 21, 25];
+    'O': SetBunch := [2, 3, 4, 6, 10, 11, 15, 16, 20, 22, 23, 24];
+    'P': SetBunch := [1, 2, 3, 6, 9, 11, 12, 13, 16, 21];
+    'Q': SetBunch := [2, 3, 4, 6, 10, 11, 15, 16, 19, 22, 23, 25];
+    'R': SetBunch := [1, 2, 3, 4, 6, 9, 11, 12, 13, 14, 16, 18, 21, 24];
+    'S': SetBunch := [2, 3, 4, 5, 6, 12, 13, 14, 20, 21, 22, 23, 24];
+    'T': SetBunch := [1, 2, 3, 4, 5, 8, 13, 18, 23];
+    'U': SetBunch := [1, 5, 6, 10, 11, 15, 16, 20, 22, 23, 24];
+    'V': SetBunch := [1, 5, 7, 9, 12, 14, 18];
+    'W': SetBunch := [1, 5, 6, 10, 11, 13, 15, 16, 18, 20, 22, 24];
+    'X': SetBunch := [1, 5, 7, 9, 13, 17, 19, 21, 25];
+    'Y': SetBunch := [1, 5, 7, 9, 13, 18, 23];
+    'Z': SetBunch := [1, 2, 3, 4, 5, 9, 13, 17, 21, 22, 23, 24, 25]
   END;
 END;{SetBunch}
 PROCEDURE GraphPrint(VAR Ch: CHAR; VAR FOut: TEXT);
 VAR
   LetterBunch: BunchOfNumbers;
   I: INTEGER;
-  isSymbol: BOOLEAN;
 BEGIN{GraphPrint}
-  isSymbol := TRUE;
-  SetBunch(LetterBunch, Ch, isSymbol);
-  WRITELN(FOut);
-  IF (isSymbol)
+  IF (Ch IN LetterAlphabet)
   THEN
     BEGIN
-      FOR I := 1 TO 25
+      LetterBunch := SetBunch(Ch);
+      WRITELN(FOut);
+      FOR I := Min TO Max
       DO
         BEGIN
           IF (I IN LetterBunch)
           THEN
-            WRITE(FOut, 'X')
+            WRITE(FOut, FilledCell)
           ELSE
-            WRITE(FOut, ' ');
-          IF (I MOD 5 = 0)
+            WRITE(FOut, EmptyCell);
+          IF (I MOD Row = 0)
           THEN
             WRITELN(FOut)
         END
