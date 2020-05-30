@@ -11,8 +11,6 @@ VAR
   Code: Chiper;
   I: LengthStr;
 PROCEDURE Initialize(VAR Code: Chiper);
-VAR
-  I: CHAR;
 BEGIN  {Initialize}
   Code['A'] := 'Z';
   Code['B'] := 'Y';
@@ -44,8 +42,6 @@ END;  {Initialize}
 PROCEDURE Encode(VAR Msg: Str; VAR Code: Chiper; VAR MsgLength: LengthStr);
 VAR
   I: LengthStr;
-  Symbol: CHAR;
-  SymbolBunch: SET OF CHAR;
 BEGIN {Encode}
   FOR I := 1 TO MsgLength - 1 
   DO

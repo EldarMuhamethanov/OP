@@ -47,11 +47,10 @@ BEGIN  {Initialize}
     END
 END;  {Initialize}
  
-PROCEDURE Encode(VAR Msg: Str; VAR Code: Chiper; VAR MsgLength: LengthStr; VAR CodeBunch: CharBunch);
+PROCEDURE Decode(VAR Msg: Str; VAR Code: Chiper; VAR MsgLength: LengthStr; VAR CodeBunch: CharBunch);
 VAR
   I: LengthStr;
-  Symbol: CHAR;
-BEGIN {Encode}
+BEGIN {Decode}
   FOR I := 1 TO MsgLength - 1
   DO
     BEGIN
@@ -62,9 +61,9 @@ BEGIN {Encode}
         WRITE(Msg[I])
     END; 
   WRITELN(OUTPUT)
-END; {Encode}
+END; {Decode}
 
-BEGIN  {Encryption}
+BEGIN  {Decription}
   ASSIGN(ChiperFile, 'code.txt');
   CodeBunch := []; //Все символы которые будут считаны из файла И закодированы
   Initialize(ChiperFile, Code, CodeBunch, FormatError); 
@@ -94,9 +93,9 @@ BEGIN  {Encryption}
          WRITELN;  
          IF NOT Overflow
          THEN
-           Encode(Msg, Code, I, CodeBunch) 
+           Decode(Msg, Code, I, CodeBunch) 
        END 
     END
   ELSE
     WRITELN(OUTPUT, 'Incorrect file data(Format error OR non-array character)')
-END.  {Encryption}
+END.  {Decription}

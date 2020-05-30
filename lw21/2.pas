@@ -50,7 +50,6 @@ END;  {Initialize}
 PROCEDURE Encode(VAR Msg: Str; VAR Code: Chiper; VAR MsgLength: LengthStr; VAR CodeBunch: CharBunch);
 VAR
   I: LengthStr;
-  Symbol: CHAR;
 BEGIN {Encode}
   FOR I := 1 TO MsgLength - 1
   DO
