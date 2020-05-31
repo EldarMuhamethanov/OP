@@ -54,7 +54,7 @@ BEGIN {Encode}
   FOR I := 1 TO MsgLength - 1
   DO
     BEGIN
-      IF (Msg[I] IN CodeAlphabet) AND (Msg[I] IN CodeBunch)
+      IF Msg[I] IN CodeBunch
       THEN
         WRITE(Code[Msg[I]])
       ELSE
