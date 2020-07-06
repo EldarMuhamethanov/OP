@@ -32,9 +32,9 @@ IMPLEMENTATION
       BEGIN
         ClearContainer(Ptr^.LLink);
         ClearContainer(Ptr^.RLink);
-        DISPOSE(Ptr);
         Ptr := NIL
-      END  
+      END;
+    DISPOSE(Ptr)  
   END;  {ClearContainer}
   
   PROCEDURE CopyOpenFile(VAR FIn, FOut: TEXT); {Копирует из одного файла в другой}
@@ -55,14 +55,14 @@ IMPLEMENTATION
       END
   END;  {CopyFile}
      
-  PROCEDURE MergeContainer(VAR FTempIn, FTempOut: TEXT; VAR Ptr: Container; VAR EndOfFile: BOOLEAN; VAR ContainerWordInfo, FileWordInfo: WordInfo);{Сливает контейнер с файлом FTempIn в другой файл FTempOut}
+  PROCEDURE MergeContainer(VAR Temp1, Temp2: TEXT; VAR Ptr: Container; VAR EndOfFile: BOOLEAN; VAR ContainerWordInfo, FileWordInfo: WordInfo);{Сливает контейнер с файлом Temp1 в другой файл Temp2}
   VAR 
     IsEqual, IsLess: BOOLEAN;
   BEGIN {MergeContainer}
     IF (Ptr <> NIL)
     THEN
       BEGIN 
-        MergeContainer(FTempIn, FTempOut, Ptr^.LLink, EndOfFile,ContainerWordInfo, FileWordInfo);
+        MergeContainer(Temp1, Temp2, Ptr^.LLink, EndOfFile, ContainerWordInfo, FileWordInfo);
         IsEqual := FALSE;
         IsLess := FALSE;
         ContainerWordInfo.OneWord := Ptr^.OneWord;
@@ -70,33 +70,33 @@ IMPLEMENTATION
         IF (FileWordInfo.OneWord < ContainerWordInfo.OneWord) AND NOT EndOfFile
         THEN  
           BEGIN 
-            WRITELN(FTempOut, FileWordInfo.OneWord, ' ', FileWordInfo.Counter);
-            EndOfFile := EOF(FTempIn)
+            WRITELN(Temp2, FileWordInfo.OneWord, ' ', FileWordInfo.Counter);
+            EndOfFile := EOF(Temp1)
           END
         ELSE 
-          IF (FileWordInfo.OneWord = ContainerWordInfo.OneWord) AND (NOT EOF(FTempIn))
+          IF (FileWordInfo.OneWord = ContainerWordInfo.OneWord) AND (NOT EOF(Temp1))
           THEN
             BEGIN
-              WRITELN(FTempOut, FileWordInfo.OneWord, ' ', FileWordInfo.Counter + ContainerWordInfo.Counter);
+              WRITELN(Temp2, FileWordInfo.OneWord, ' ', FileWordInfo.Counter + ContainerWordInfo.Counter);
               IsEqual := TRUE      
             END
           ELSE
             IsLess := TRUE;  
-        WHILE (NOT IsLess) AND (NOT EOF(FTempIn))
+        WHILE (NOT IsLess) AND (NOT EOF(Temp1))
         DO
           BEGIN
-            GetWordFromFile(FTempIn, FileWordInfo.OneWord, FileWordInfo.Counter);
+            GetWordFromFile(Temp1, FileWordInfo.OneWord, FileWordInfo.Counter);
             IF (FileWordInfo.OneWord < ContainerWordInfo.OneWord)
             THEN
               BEGIN   
-                WRITELN(FTempOut, FileWordInfo.OneWord, ' ', FileWordInfo.Counter);
-                EndOfFile := EOF(FTempIn)
+                WRITELN(Temp2, FileWordInfo.OneWord, ' ', FileWordInfo.Counter);
+                EndOfFile := EOF(Temp1)
               END
             ELSE 
               IF FileWordInfo.OneWord = ContainerWordInfo.OneWord 
               THEN
                 BEGIN
-                  WRITELN(FTempOut, FileWordInfo.OneWord, ' ', FileWordInfo.Counter + ContainerWordInfo.Counter);
+                  WRITELN(Temp2, FileWordInfo.OneWord, ' ', FileWordInfo.Counter + ContainerWordInfo.Counter);
                   IsEqual := TRUE
                 END
               ELSE
@@ -104,30 +104,30 @@ IMPLEMENTATION
           END; 
         IF NOT IsEqual 
         THEN        
-          WRITELN(FTempOut, ContainerWordInfo.OneWord, ' ', ContainerWordInfo.Counter);       
-        MergeContainer(FTempIn, FTempOut, Ptr^.RLink, EndOfFile, ContainerWordInfo, FileWordInfo)      
+          WRITELN(Temp2, ContainerWordInfo.OneWord, ' ', ContainerWordInfo.Counter);       
+        MergeContainer(Temp1, Temp2, Ptr^.RLink, EndOfFile, ContainerWordInfo, FileWordInfo)      
       END   
   END;  {MergeContainer}
           
-  PROCEDURE Merge(VAR FTempIn, FTempOut: TEXT; VAR Ptr: Container); {Подготавливает контейнер к слиянию с файлом}
+  PROCEDURE Merge(VAR Temp1, Temp2: TEXT; VAR Ptr: Container); {Подготавливает контейнер к слиянию с файлом}
   VAR
     ContainerWordInfo, FileWordInfo: WordInfo;
     EndOfFile: BOOLEAN;
     Ch: CHAR;
   BEGIN {Merge} 
-    GetWordFromFile(FTempIn, FileWordInfo.OneWord, FileWordInfo.Counter);
+    GetWordFromFile(Temp1, FileWordInfo.OneWord, FileWordInfo.Counter);
     ContainerWordInfo.OneWord := '';
     ContainerWordInfo.Counter := 0;
     EndOfFile := FALSE;
-    MergeContainer(FTempIn, FTempOut, Ptr, EndOfFile, ContainerWordInfo, FileWordInfo);
+    MergeContainer(Temp1, Temp2, Ptr, EndOfFile, ContainerWordInfo, FileWordInfo);
     IF NOT EndOfFile
     THEN
-      WRITELN(FTempOut, FileWordInfo.OneWord, ' ', FileWordInfo.Counter);
-    WHILE NOT EOF(FTempIn)
+      WRITELN(Temp2, FileWordInfo.OneWord, ' ', FileWordInfo.Counter);
+    WHILE NOT EOF(Temp1)
     DO
       BEGIN
-        GetWordFromFile(FTempIn, FileWordInfo.OneWord, FileWordInfo.Counter);
-        WRITELN(FTempOut, FileWordInfo.OneWord, ' ', FileWordInfo.Counter)
+        GetWordFromFile(Temp1, FileWordInfo.OneWord, FileWordInfo.Counter);
+        WRITELN(Temp2, FileWordInfo.OneWord, ' ', FileWordInfo.Counter)
       END    
   END;  {Merge}
   

@@ -56,8 +56,8 @@ IMPLEMENTATION
         ClearContainer(Ptr^.RLink);
         Ptr^.OneWord := '';
         Ptr^.WordCounter := 0;
-        DISPOSE(Ptr);
         Ptr := NIL
-      END
+      END;
+    DISPOSE(Ptr)  
   END; {ClearContainer}
 END.
