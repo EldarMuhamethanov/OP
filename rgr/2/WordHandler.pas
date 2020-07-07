@@ -2,7 +2,8 @@ UNIT WordHandler;
 INTERFACE
   CONST
     Alphabet: SET OF CHAR = ['A' .. 'Z', 'a' .. 'z', 'À' .. 'ß', 'à' .. 'ÿ', '¨', '¸']; 
-    MaxWordLength = 50;   
+    MaxWordLength = 50; 
+    ToLowerDist = 32;  
   TYPE
     WordType = STRING[MaxWordLength];
     WordInfo = RECORD
@@ -19,7 +20,7 @@ IMPLEMENTATION
   BEGIN   
     IF Letter IN UpperCaseLetter
     THEN
-      ToLowerCase := CHR(ORD(Letter) + 32)
+      ToLowerCase := CHR(ORD(Letter) + ToLowerDist)
     ELSE
       IF Letter IN ['¨', '¸'] 
       THEN

@@ -64,7 +64,7 @@ IMPLEMENTATION
       BEGIN 
         MergeContainer(Temp1, Temp2, Ptr^.LLink, EndOfFile, ContainerWordInfo, FileWordInfo);
         IsEqual := FALSE;
-        IsLess := FALSE;
+        IsLess := FALSE; 
         ContainerWordInfo.OneWord := Ptr^.OneWord;
         ContainerWordInfo.Counter := Ptr^.Counter;
         IF (FileWordInfo.OneWord < ContainerWordInfo.OneWord) AND NOT EndOfFile
